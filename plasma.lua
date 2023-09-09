@@ -3,8 +3,8 @@
 -- e1    time
 -- k1+e1 func
 -- e2    a
--- k1+e2 b
--- e3    c
+-- e3    b
+-- k1+e2 c
 -- k1+e3 d
 --
 -- submit new funcs!
@@ -13,10 +13,12 @@ abs = math.abs
 floor = math.floor
 sin = math.sin
 cos = math.cos
+sqrt = math.sqrt
 
 func = {
 	function(x,y) return abs(floor(16*(sin(x/a + t*c) + cos(y/b + t*d))))%16 end,
 	function(x,y) return abs(floor(16*(sin(x/y)*a + t*b)))%16 end,
+	function(x,y) return abs(floor(16*(sin(sin(t*a)*c + (t*b) + sqrt(y*y*(y*c) + x*(x/d))))))%16 end,
 }
 f = 1
 p = {}
