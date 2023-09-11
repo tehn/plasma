@@ -16,9 +16,11 @@ cos = math.cos
 sqrt = math.sqrt
 
 func = {
-	function(x,y) return abs(floor(16*(sin(x/a + t*c) + cos(y/b + t*d))))%16 end,
-	function(x,y) return abs(floor(16*(sin(x/y)*a + t*b)))%16 end,
-	function(x,y) return abs(floor(16*(sin(sin(t*a)*c + (t*b) + sqrt(y*y*(y*c) + x*(x/d))))))%16 end,
+	function(x,y) return abs(floor(16*(sin(x/a + t*c) + cos(y/b + t*d))))%16 end, -- @tehn
+	function(x,y) return abs(floor(16*(sin(x/y)*a + t*b)))%16 end, -- @tehn
+	function(x,y) return abs(floor(16*(sin(sin(t*a)*c + (t*b) + sqrt(y*y*(y*c) + x*(x/d))))))%16 end, -- @mei
+	function(x,y) return abs(floor(16*(sin(x/a + t*c) + cos(y/b + t*d) + (sin(x/a)/c))))%16 end, -- @jasonw22
+	function(x,y) return abs(floor(16*(sin(x/a + t*c) + cos(y/b + (sin(x/a)*c) + (cos(y/b - t)*c*2 + cos(x/b+y/(a/2)+t*c*2))))))%16 end, -- @jasonw22
 }
 f = 1
 p = {}
