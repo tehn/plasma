@@ -34,6 +34,83 @@ alt = false
 
 g = grid.connect()
 
+-- add params for modulation
+params:add_separator('PLASMA')
+
+params:add{
+	id = 'function',
+	name = 'function',
+	type = 'number',
+	min = 1,
+	max = #func,
+	default = 1,
+	action = function(value)
+		f = value
+	end
+}
+
+params:add{
+	id = 'time',
+	name = 'time',
+	type = 'control',
+	controlspec = controlspec.new(-1, 1, 'lin', 0, 0.02),
+	action = function(value)
+		time = value
+	end
+}
+params:add{
+	id = 'a',
+	name = 'a',
+	type = 'control',
+	controlspec = controlspec.new(-10, 10, 'lin', 0, 3.0),
+	action = function(value)
+		a = value
+	end
+}
+
+params:add{
+	id = 'b',
+	name = 'b',
+	type = 'control',
+	controlspec = controlspec.new(-10, 10, 'lin', 0, 5.0),
+	action = function(value)
+		b = value
+	end
+}
+
+params:add{
+	id = 'c',
+	name = 'c',
+	type = 'control',
+	controlspec = controlspec.new(-10, 10, 'lin', 0, 1.0),
+	action = function(value)
+		c = value
+	end
+}
+
+params:add{
+	id = 'd',
+	name = 'd',
+	type = 'control',
+	controlspec = controlspec.new(-10, 10, 'lin', 0, 1.1),
+	action = function(value)
+		d = value
+	end
+}
+
+params:add{
+	id = "rotation",
+	name = "rotation",
+	type = "option",
+	options = {"0", "90", "180", "270"},
+	default = 1,
+	action = function(value)
+		g:rotation(value - 1)
+	end
+}
+
+-- end params
+
 function tick()
 	while true do
 		t = t+(time*0.1)
@@ -68,21 +145,16 @@ function grid_redraw()
 	g:refresh()
 end
 
-
 function enc(n,delta)
 	if n==1 then
-		if not alt then time = time + delta*0.001
-		else
-			f = f + delta
-			f = math.min(f,#func)
-			f = math.max(f,1)
-		end
+		if not alt then params:set('time', time + delta*0.001)
+		else params:set('function', f + delta) end
 	elseif n==2 then
-		if not alt then a = a + delta*0.01
-		else c = c + delta*0.01 end
+		if not alt then params:set('a', a + delta*0.01)
+		else params:set('c', c + delta*0.01) end
 	elseif n==3 then
-		if not alt then b = b + delta*0.01
-		else d = d + delta*0.01 end
+		if not alt then params:set('b', b + delta*0.01)
+		else params:set('d', d + delta*0.01) end
 	end
 end
 
@@ -103,7 +175,7 @@ function redraw()
 	screen.move(120,10)
 	screen.text("t")
 	screen.move(115,10)
-	screen.text_right(time)
+	screen.text_right(string.format("%.3f", time))
 	screen.move(120,20)
 	screen.text("f")
 	screen.move(115,20)
@@ -111,19 +183,19 @@ function redraw()
 	screen.move(120,30)
 	screen.text("a")
 	screen.move(115,30)
-	screen.text_right(a)
+	screen.text_right(string.format("%.2f", a))
 	screen.move(120,40)
 	screen.text("b")
 	screen.move(115,40)
-	screen.text_right(b)
+	screen.text_right(string.format("%.2f", b))
 	screen.move(120,50)
 	screen.text("c")
 	screen.move(115,50)
-	screen.text_right(c)
+	screen.text_right(string.format("%.2f", c))
 	screen.move(120,60)
 	screen.text("d")
 	screen.move(115,60)
-	screen.text_right(d)
+	screen.text_right(string.format("%.2f", d))
 	screen.update()
 end
 
