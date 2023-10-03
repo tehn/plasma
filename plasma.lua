@@ -45,7 +45,7 @@ params:add{
 	max = #func,
 	default = 1,
 	action = function(value)
-    f = value
+		f = value
 	end
 }
 
@@ -55,7 +55,7 @@ params:add{
 	type = 'control',
 	controlspec = controlspec.new(-1, 1, 'lin', 0, 0.02),
 	action = function(value)
-    time = value
+		time = value
 	end
 }
 params:add{
@@ -64,7 +64,7 @@ params:add{
 	type = 'control',
 	controlspec = controlspec.new(-10, 10, 'lin', 0, 3.0),
 	action = function(value)
-    a = value
+		a = value
 	end
 }
 
@@ -74,7 +74,7 @@ params:add{
 	type = 'control',
 	controlspec = controlspec.new(-10, 10, 'lin', 0, 5.0),
 	action = function(value)
-    b = value
+		b = value
 	end
 }
 
@@ -84,7 +84,7 @@ params:add{
 	type = 'control',
 	controlspec = controlspec.new(-10, 10, 'lin', 0, 1.0),
 	action = function(value)
-    c = value
+		c = value
 	end
 }
 
@@ -94,7 +94,7 @@ params:add{
 	type = 'control',
 	controlspec = controlspec.new(-10, 10, 'lin', 0, 1.1),
 	action = function(value)
-    d = value
+		d = value
 	end
 }
 
@@ -104,9 +104,10 @@ params:add{
 	type = "option",
 	options = {"0", "90", "180", "270"},
 	default = 1,
-  action = function(value)
-    g:rotation(value-1)
-  end}
+	action = function(value)
+		g:rotation(value - 1)
+	end
+}
 
 -- end params
 
