@@ -9,19 +9,12 @@
 --
 -- submit new funcs!
 
-abs = math.abs
-floor = math.floor
-sin = math.sin
-cos = math.cos
-sqrt = math.sqrt
+local abs = math.abs
+local floor = math.floor
+local sin = math.sin
+local cos = math.cos
+local sqrt = math.sqrt
 
-func = {
-	function(x,y) return abs(floor(16*(sin(x/a + t*c) + cos(y/b + t*d))))%16 end, -- @tehn
-	function(x,y) return abs(floor(16*(sin(x/y)*a + t*b)))%16 end, -- @tehn
-	function(x,y) return abs(floor(16*(sin(sin(t*a)*c + (t*b) + sqrt(y*y*(y*c) + x*(x/d))))))%16 end, -- @mei
-	function(x,y) return abs(floor(16*(sin(x/a + t*c) + cos(y/b + t*d) + (sin(x/a)/c))))%16 end, -- @jasonw22
-	function(x,y) return abs(floor(16*(sin(x/a + t*c) + cos(y/b + (sin(x/a)*c) + (cos(y/b - t)*c*2 + cos(x/b+y/(a/2)+t*c*2))))))%16 end, -- @jasonw22
-}
 f = 1
 p = {}
 t = 0
@@ -31,10 +24,20 @@ b = 5.0
 c = 1.0
 d = 1.1
 alt = false
+local cols = 16
+local rows = 16
+local func = {
+	function(x,y) return abs(floor(16*(sin(x/a + t*c) + cos(y/b + t*d))))%16 end, -- @tehn
+	function(x,y) return abs(floor(16*(sin(x/y)*a + t*b)))%16 end, -- @tehn
+	function(x,y) return abs(floor(16*(sin(sin(t*a)*c + (t*b) + sqrt(y*y*(y*c) + x*(x/d))))))%16 end, -- @mei
+	function(x,y) return abs(floor(16*(sin(x/a + t*c) + cos(y/b + t*d) + (sin(x/a)/c))))%16 end, -- @jasonw22
+	function(x,y) return abs(floor(16*(sin(x/a + t*c) + cos(y/b + (sin(x/a)*c) + (cos(y/b - t)*c*2 + cos(x/b+y/(a/2)+t*c*2))))))%16 end, -- @jasonw22
+}
 
-g = grid.connect()
 
--- add params for modulation
+local g = grid.connect()
+
+
 params:add_separator('PLASMA')
 
 params:add{
@@ -115,30 +118,38 @@ function tick()
 	while true do
 		t = t+(time*0.1)
 		process()
-		redraw()
 		grid_redraw()
 		clock.sleep(1/60)
 	end
 end
 
+function refresh()
+  redraw()  -- still getting 'screen event Q full' errors
+end
+
 function init()
-	print("hello")
+  cols = g.cols
+  rows = g.rows
 	process()
-	redraw()
 	clock.run(tick)
 end
 
+function grid.add(dev)
+  cols = g.cols
+  rows = g.rows
+end
+
 function process()
-  for x=1,16 do
-		for y=1,16 do
+  for x=1,cols do
+		for y=1,rows do
 			p[y*16+x] = func[f](x,y)
 		end
 	end
 end
 
 function grid_redraw()
-	for y=1,16 do
-		for x=1,16 do
+	for y=1,rows do
+		for x=1,cols do
 			g:led(x,y,p[x+y*16])
 		end
 	end
@@ -164,9 +175,11 @@ end
 
 function redraw()
 	screen.clear()
-  for x=1,16 do
-		for y=1,16 do
-			screen.level(p[y*16+x])
+  for x=1,cols do
+		for y=1,rows do
+			-- todo look into issue drawing nils with some funcs
+			-- screen.level(p[y*16+x])
+      screen.level(p[y*16+x] or 0)
 			screen.pixel((x-1)*4, (y-1)*4)
 			screen.fill()
 		end
