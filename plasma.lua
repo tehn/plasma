@@ -35,7 +35,6 @@ alt = false
 cols = 16
 rows = 16
 density = 4
-ready = true
 screen_mod = 0
 
 g = grid.connect()
@@ -153,7 +152,7 @@ function grid_size()
 			p[y*cols+x] = 0
 		end
 	end
-  local density_cols = math.floor(110 / (cols + 1))
+  local density_cols = math.floor(101 / (cols + 1))
   local density_rows = math.floor(64 / (rows))
   density = math.min(density_cols, density_rows)
 end  
